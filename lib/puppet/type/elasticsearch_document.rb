@@ -20,10 +20,7 @@ Puppet::Type.newtype(:elasticsearch_document) do
     validate do |value|
       unless value.is_a? String
         fail Puppet::Error, 'string expected' 
-      end
-      unless Puppet::Util.relative_path?(value)
-        fail Puppet::Error, _("File paths must not be fully qualified, not '%{path}'") % { path: value }
-      end
+      end      
     end
   end
 
