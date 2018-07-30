@@ -7,7 +7,9 @@ require 'puppet_x/elastic/deep_to_s'
 Puppet::Type.type(:elasticsearch_document).provide(
   :ruby,
   :parent => Puppet::Provider::ElasticREST,
-  :discrete_resource_creation => true,
+  #:discrete_resource_creation => true,
+  :api_resource_style => :bare,
+  :api_uri => :path.to_s,
   :metadata => :content,
   :metadata_pipeline => [
     lambda { |data| Puppet_X::Elastic.deep_to_s data }
