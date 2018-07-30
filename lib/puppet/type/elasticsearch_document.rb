@@ -32,6 +32,7 @@ Puppet::Type.newtype(:elasticsearch_document) do
     end
 
     def insync?(is)
+      Puppet.debug("The full document is #{is}")
       Puppet_X::Elastic.deep_implode(is) == \
         Puppet_X::Elastic.deep_implode(should)
     end
