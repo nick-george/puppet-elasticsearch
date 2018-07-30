@@ -21,17 +21,8 @@ Puppet::Type.newtype(:elasticsearch_document) do
       unless value.is_a? String
         fail Puppet::Error, 'string expected' 
       end
-      unless Puppet::Util.absolute_path?(value)
-        fail Puppet::Error, _("File paths must be fully qualified, not '%{path}'") % { path: value }
-      end
-    end
-
-    munge do |value|
-      if value.start_with?('//') and ::File.basename(value) == "/"
-        # This is a UNC path pointing to a share, so don't add a trailing slash
-        ::File.expand_path(value)
-      else
-        ::File.join(::File.split(::File.expand_path(value)))
+      unless Puppet::Util.relative_path?(value)
+        fail Puppet::Error, _("File paths must not be fully qualified, not '%{path}'") % { path: value }
       end
     end
   end
