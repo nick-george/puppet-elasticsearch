@@ -17,11 +17,10 @@ Puppet::Type.newtype(:elasticsearch_document) do
   newparam(:path, :namevar => true) do
     desc 'The full path to where the document will be stored in Elasticsearch.'    
 
-    validate to |value|
-      fail Puppet::Error, 'string expected' unless value.is_a? String
-    end
-
     validate do |value|
+      unless value.is_a? String
+        fail Puppet::Error, 'string expected' 
+      end
       unless Puppet::Util.absolute_path?(value)
         fail Puppet::Error, _("File paths must be fully qualified, not '%{path}'") % { path: value }
       end
@@ -60,7 +59,7 @@ Puppet::Type.newtype(:elasticsearch_document) do
 
   # rubocop:disable Style/SignalException
   validate do
-    # Ensure that at least one source of document content has been provided
+    # Ensure that at least one source of template content has been provided
     if self[:ensure] == :present
       fail Puppet::ParseError, '"content" or "source" required' \
         if self[:content].nil? and self[:source].nil?
