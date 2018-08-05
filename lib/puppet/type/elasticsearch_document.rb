@@ -17,11 +17,6 @@ Puppet::Type.newtype(:elasticsearch_document) do
   newparam(:name, :namevar => true) do
     desc 'The full path to where the document will be stored in Elasticsearch.'
 
-    # Remove leading slash from the path
-    munge do |value|
-      value.gsub(%r{^/}, '\1')
-    end
-
     validate do |value|
       raise Puppet::Error, 'string expected' unless value.is_a? String
       elems = value.split('/')
