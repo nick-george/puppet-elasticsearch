@@ -42,17 +42,17 @@ Puppet::Type.type(:elasticsearch_document).provide(
 
       response = rest http, req, res[:validate_tls], res[:timeout], res[:username], res[:password]
 
-      if response.respond_to? :code and response.code.to_i == 200
-        r = JSON.parse(response.body)
-        properties = {
-          :name => format('%s/%s/%s', r['_index'],r['_type'],r['_id']),
-          :ensure => :present,
-          metadata => process_metadata(r['_source']),
-          :provider => name
-        }
-        provider = new(properties)
-        res.provider = provider
-      end
+      next unless response.respond_to? :code and response.code.to_i == 200
+
+      r = JSON.parse(response.body)
+      properties = {
+        :name => format('%s/%s/%s', r['_index'], r['_type'], r['_id']),
+        :ensure => :present,
+        metadata => process_metadata(r['_source']),
+        :provider => name
+      }
+      provider = new(properties)
+      res.provider = provider
     end
   end
 end
