@@ -225,7 +225,6 @@ class Puppet::Provider::ElasticREST < Puppet::Provider
     else
       req = Net::HTTP::Put.new uri.request_uri
       req.body = generate_body
-      Puppet.notice("The property flush looks like #{@property_flush.to_s}")
       Puppet.debug("Generated body looks like: #{req.body.inspect}")
       # As of Elasticsearch 6.x, required when requesting with a payload (so we
       # set it always to be safe)
