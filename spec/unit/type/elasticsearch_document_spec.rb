@@ -52,39 +52,31 @@ describe Puppet::Type.type(:elasticsearch_document) do
         )
       end
     end
-  end # of describing when validing values
-
-  describe 'insync?' do
-    # Although users can pass the type a hash structure with any sort of values
-    # - string, integer, or other native datatype - the Elasticsearch API
-    # normalizes all values to strings. In order to verify that the type does
-    # not incorrectly detect changes when values may be in string form, we take
-    # an example document and force all values to strings to mimic what
-    # Elasticsearch does.
-    it 'is idempotent' do
-      def deep_stringify(obj)
-        if obj.is_a? Array
-          obj.map { |element| deep_stringify(element) }
-        elsif obj.is_a? Hash
-          obj.merge(obj) { |_key, val| deep_stringify(val) }
-        else
-          obj.to_s
-        end
+    describe 'document name validation' do
+      it 'should not just contain index and doc id or type' do
+        expect do
+          described_class.new(
+            :name => 'a/b',
+            :ensure => :present
+          )
+        end.to raise_error(Puppet::Error, %r{name must be of form <index>/<type>/<id>})
       end
-      json = JSON.parse(File.read('spec/fixtures/templates/post_6.0.json'))
-
-      is_template = described_class.new(
-        :name => resource_name,
-        :ensure => 'present',
-        :content => json
-      ).property(:content)
-      should_template = described_class.new(
-        :name => resource_name,
-        :ensure => 'present',
-        :content => deep_stringify(json)
-      ).property(:content).should
-
-      expect(is_template.insync?(should_template)).to be_truthy
+      it 'should not specify a path deeper than index/type/doc' do
+        expect do
+          described_class.new(
+            :name => 'a/b/c/d',
+            :ensure => :present
+          )
+        end.to raise_error(Puppet::Error, %r{name must be of form <index>/<type>/<id>})
+      end
+      it 'should not start with a slash' do
+        expect do
+          described_class.new(
+            :name => '/a/b/c',
+            :ensure => :present
+          )
+        end.to raise_error(Puppet::Error, %r{name must be of form <index>/<type>/<id>})
+      end
     end
-  end
+  end # of describing when validing values
 end # of describe Puppet::Type

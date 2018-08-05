@@ -19,7 +19,7 @@ Puppet::Type.type(:elasticsearch_document).provide(
 
   # Helper to format a remote URL request for Elasticsearch which takes into
   # account path ordering, et cetera.
-  def self.format_uri(resource_path, property_flush = {})
+  def self.format_uri(resource_path, _property_flush = {})
     resource_path
   end
 
