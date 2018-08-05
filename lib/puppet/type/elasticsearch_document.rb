@@ -14,13 +14,13 @@ Puppet::Type.newtype(:elasticsearch_document) do
 
   ensurable
 
-  newparam(:path, :namevar => true) do
+  newparam(:name, :namevar => true) do
     desc 'The full path to where the document will be stored in Elasticsearch.'
 
     validate do |value|
       raise Puppet::Error, 'string expected' unless value.is_a? String
       elems = value.split('/')
-      raise Puppet::Error, 'path must be of form <index>/<type>/<id>' unless elems.length == 3
+      raise Puppet::Error, "name must be of form <index>/<type>/<id>, not #{value}" unless elems.length == 3
     end
   end
 

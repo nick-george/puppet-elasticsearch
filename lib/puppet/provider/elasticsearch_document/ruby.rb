@@ -17,6 +17,12 @@ Puppet::Type.type(:elasticsearch_document).provide(
 
   mk_resource_methods
 
+  # Helper to format a remote URL request for Elasticsearch which takes into
+  # account path ordering, et cetera.
+  def self.format_uri(resource_path, property_flush = {})
+    resource_path
+  end
+
   def self.instances
     raise Puppet::Error, 'instances method not implemented for elasticsearch_document'
   end
