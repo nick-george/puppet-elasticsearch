@@ -15,12 +15,12 @@ Puppet::Type.newtype(:elasticsearch_document) do
   ensurable
 
   newparam(:path, :namevar => true) do
-    desc 'The full path to where the document will be stored in Elasticsearch.'    
+    desc 'The full path to where the document will be stored in Elasticsearch.'
 
     validate do |value|
-      unless value.is_a? String
-        fail Puppet::Error, 'string expected' 
-      end      
+      raise Puppet::Error, 'string expected' unless value.is_a? String
+      elems = value.split('/')
+      raise Puppet::Error, 'path must be of form <index>/<type>/<id>' unless elems.length == 3
     end
   end
 
@@ -49,10 +49,10 @@ Puppet::Type.newtype(:elasticsearch_document) do
   validate do
     # Ensure that at least one source of template content has been provided
     if self[:ensure] == :present
-      fail Puppet::ParseError, '"content" or "source" required' \
+      raise Puppet::ParseError, '"content" or "source" required' \
         if self[:content].nil? and self[:source].nil?
       if !self[:content].nil? and !self[:source].nil?
-        fail(
+        raise(
           Puppet::ParseError,
           "'content' and 'source' cannot be simultaneously defined"
         )
