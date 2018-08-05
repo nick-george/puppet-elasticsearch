@@ -7,8 +7,7 @@ require 'puppet_x/elastic/deep_to_s'
 Puppet::Type.type(:elasticsearch_document).provide(
   :ruby,
   :parent => Puppet::Provider::ElasticREST,
-  :metadata => :content,
-  :discrete_resource_creation => true,
+  :metadata => :content
 ) do
   desc 'A REST API based provider to manage Elasticsearch documents.'
 
