@@ -53,7 +53,7 @@ describe Puppet::Type.type(:elasticsearch_document) do
       end
     end
     describe 'document name validation' do
-      it 'should not just contain index and doc id or type' do
+      it 'must not just contain index and doc id or type' do
         expect do
           described_class.new(
             :name => 'a/b',
@@ -61,7 +61,7 @@ describe Puppet::Type.type(:elasticsearch_document) do
           )
         end.to raise_error(Puppet::Error, %r{name must be of form <index>/<type>/<id>})
       end
-      it 'should not specify a path deeper than index/type/doc' do
+      it 'must not specify a path deeper than index/type/doc' do
         expect do
           described_class.new(
             :name => 'a/b/c/d',
@@ -69,7 +69,7 @@ describe Puppet::Type.type(:elasticsearch_document) do
           )
         end.to raise_error(Puppet::Error, %r{name must be of form <index>/<type>/<id>})
       end
-      it 'should not start with a slash' do
+      it 'must not start with a slash' do
         expect do
           described_class.new(
             :name => '/a/b/c',

@@ -19,7 +19,7 @@ Puppet::Type.newtype(:elasticsearch_document) do
 
     # Remove leading slash from the path
     munge do |value|
-      value.sub(%r{^/}, '')
+      value.gsub(%r{^/}, '\1')
     end
 
     validate do |value|
