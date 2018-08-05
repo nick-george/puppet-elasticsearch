@@ -9,9 +9,6 @@ Puppet::Type.type(:elasticsearch_document).provide(
   :parent => Puppet::Provider::ElasticREST,
   :metadata => :content,
   :discrete_resource_creation => true,
-  :metadata_pipeline => [
-    lambda { |data| Puppet_X::Elastic.deep_to_s data }
-  ]
 ) do
   desc 'A REST API based provider to manage Elasticsearch documents.'
 
