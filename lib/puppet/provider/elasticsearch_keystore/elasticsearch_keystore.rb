@@ -36,7 +36,7 @@ Puppet::Type.type(:elasticsearch_keystore).provide(
     }
 
     unless stdin.nil?
-      stdinfile = Tempfile.new('elasticsearch-keystore','/tmp')
+      stdinfile = Tempfile.new('elasticsearch-keystore','/var/run/elasticsearch')
       stdinfile << stdin
       stdinfile.flush
       options[:stdinfile] = stdinfile.path
