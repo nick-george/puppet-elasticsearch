@@ -11,7 +11,7 @@ Puppet::Type.type(:elasticsearch_license).provide(
     lambda { |data| Puppet_X::Elastic.deep_to_s data },
     lambda { |data| Puppet_X::Elastic.deep_to_i data }
   ],
-  :api_uri => '_xpack/license',
+  :api_uri => '_license',
   :query_string => {
     'acknowledge' => 'true'
   }
