@@ -20,7 +20,9 @@ Puppet::Type.newtype(:elasticsearch_document) do
     validate do |value|
       raise Puppet::Error, 'string expected' unless value.is_a? String
       elems = value.split('/')
-      raise Puppet::Error, "name must be of form <index>/<type>/<id>, not #{value}" unless elems.length == 3
+      if elems.length != 3 and elems.length != 2
+        raise Puppet::Error, "name must be of form <index>/<type>/<id>, or <index>/<id>. Not #{value}"
+      end
     end
   end
 
