@@ -30,11 +30,11 @@ Puppet::Type.newtype(:elasticsearch_snapshot_repository) do
   end
 
   newproperty(:bucket) do
-    desc 'Repository location'
+    desc 'Repository bucket'
   end
   
   newproperty(:region) do
-    desc 'Repository location'
+    desc 'Repository region'
   end
 
   newproperty(:chunk_size) do
@@ -50,6 +50,7 @@ Puppet::Type.newtype(:elasticsearch_snapshot_repository) do
   end
 
   validate do
-    raise ArgumentError, 'Location is required.' if self[:location].nil?
+    raise ArgumentError, 'Bucket is required.' if self[:bucket].nil?
+    raise ArgumentError, 'Region is required.' if self[:region].nil?
   end
 end # of newtype
