@@ -29,7 +29,11 @@ Puppet::Type.newtype(:elasticsearch_snapshot_repository) do
     defaultto :true
   end
 
-  newproperty(:location) do
+  newproperty(:bucket) do
+    desc 'Repository location'
+  end
+  
+  newproperty(:region) do
     desc 'Repository location'
   end
 
