@@ -38,7 +38,7 @@ Puppet::Type.type(:elasticsearch_snapshot_repository).provide(
       'type'     => resource[:type],
       'settings' => {
         'compress' => resource[:compress],
-        'bucket'   => resource[:bucket]
+        'bucket'   => resource[:bucket],
         'region'   => resource[:region]
       }
     }
