@@ -45,6 +45,70 @@ To preserve existing behavior, set `$elasticsearch::download_tool_verify_certifi
 Primarily a bugfix release.
 
 #### Fixes
+
+## 7.0.0 (December 23, 2020)
+
+This is a new major version release of the Elasticsearch module that contains a number of breaking changes and adds support for deploying
+and managing Elasticsearch 7.x.
+
+### Breaking changes
+* Removed support for running multiple instances of Elasticsearch on a single host
+* Removed support for Elasticsearch older than version 6.x
+
+### Features
+* Support for deploying Elasticsearch 7.x
+* Support and Testing for a number of newer OS'
+  * Amazon Linux 2
+  * CentOS 8
+  * Oracle Linux 8
+  * Debian 10
+  * Ubuntu 18.04
+  * Ubuntu 20.04
+
+### Bug fixes
+Various little bug fixes as a result of cleaning up and refactoring a lot of the code.
+
+## 6.4.0 (August 28, 2019)
+
+#### Features
+* Support for Puppet 6
+
+#### Fixes
+* Fix "Could not autoload" errors in some custom types/providers.
+* Resolved an issue arising from the use of `hiera()` in Hiera yaml data files.
+
+## 6.3.4 (August 7, 2019)
+
+#### Puppet < 4.10 No Longer Supported
+
+Puppet 4.10.0 is the new minimum required version of Puppet.
+
+#### Fixes
+* The Elasticsearch log directory is no longer recursively managed to avoid stomping on the user/mode settings that Elasticsearch prefers.
+* Package management on apt-based systems no longer encounters dependency errors when `manage_repo => false`.
+* Plugin configuration files are now more well-supported by respecting subdirectory copy recursion. See `elasticsearch::configdir_recurselimit` for more information.
+* An error related to elasticsearch_roles and `yield` errors has been fixed
+* Correctly permit instances to be set to `absent` without errors.
+
+## 6.3.3 (September 7, 2018)
+
+Note that this release includes changes to a default value that may affect users that rely on `curl` or `wget` to retrieve Elasticsearch package files, as now all certificates are validated by default.
+To preserve existing behavior, set `$elasticsearch::download_tool_verify_certificates` to `false`.
+
+#### Fixes
+* Update puppetlabs-stdlib dependency to < 6.0.0
+* By default, package files downloaded with tools like wget or curl (i.e., the `$elasticsearch::download_tool` parameter) now verify certificates by default and a new boolean parameter has been added to indicate whether to ignore certificates (`$elasticsearch::download_tool_verify_certificates`).
+
+## 6.3.2 (August 28, 2018)
+
+#### Fixes
+* Fix an issue with string coercion for certain fields in pipelines.
+
+## 6.3.1 (August 6, 2018)
+
+Primarily a bugfix release.
+
+#### Fixes
 * REST-based resources are now coerced to string values to uniformly compare user defined values and Elasticsearch API responses.
 * Resolve deprecation warnings related to use of the deprecated is_array() function.
 * Fixed an erroneous inclusion of '<' in logging.yml
